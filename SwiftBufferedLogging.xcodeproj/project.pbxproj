@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1BD73E3124DB4C0400D878D7 /* LogOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD73E3024DB4C0400D878D7 /* LogOptions.swift */; };
+		1BD73E3324DB4D2D00D878D7 /* LogContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD73E3224DB4D2D00D878D7 /* LogContainer.swift */; };
+		1BD73E3524DB4DDF00D878D7 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD73E3424DB4DDF00D878D7 /* Log.swift */; };
 		OBJ_23 /* SwiftBufferedLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* SwiftBufferedLogging.swift */; };
 		OBJ_30 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_41 /* SwiftBufferedLoggingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* SwiftBufferedLoggingTests.swift */; };
@@ -45,13 +48,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1BD73E2E24DB4B6E00D878D7 /* SwiftBufferedLogging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftBufferedLogging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BD73E2F24DB4B6E00D878D7 /* SwiftBufferedLoggingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftBufferedLoggingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BD73E3024DB4C0400D878D7 /* LogOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOptions.swift; sourceTree = "<group>"; };
+		1BD73E3224DB4D2D00D878D7 /* LogContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogContainer.swift; sourceTree = "<group>"; };
+		1BD73E3424DB4DDF00D878D7 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		OBJ_12 /* SwiftBufferedLoggingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBufferedLoggingTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		OBJ_17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* SwiftBufferedLogging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBufferedLogging.swift; sourceTree = "<group>"; };
-		"SwiftBufferedLogging::SwiftBufferedLogging::Product" /* SwiftBufferedLogging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftBufferedLogging.framework; path = /Users/brandonbaker/GitHub/SwiftBufferedLogging/build/Debug/SwiftBufferedLogging.framework; sourceTree = "<absolute>"; };
-		"SwiftBufferedLogging::SwiftBufferedLoggingTests::Product" /* SwiftBufferedLoggingTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; name = SwiftBufferedLoggingTests.xctest; path = /Users/brandonbaker/GitHub/SwiftBufferedLogging/build/Debug/SwiftBufferedLoggingTests.xctest; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,15 +96,16 @@
 			path = Tests/SwiftBufferedLoggingTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
 				OBJ_17 /* README.md */,
+				1BD73E2E24DB4B6E00D878D7 /* SwiftBufferedLogging.framework */,
+				1BD73E2F24DB4B6E00D878D7 /* SwiftBufferedLoggingTests.xctest */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -113,6 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* SwiftBufferedLogging.swift */,
+				1BD73E3024DB4C0400D878D7 /* LogOptions.swift */,
+				1BD73E3224DB4D2D00D878D7 /* LogContainer.swift */,
+				1BD73E3424DB4DDF00D878D7 /* Log.swift */,
 			);
 			name = SwiftBufferedLogging;
 			path = Sources/SwiftBufferedLogging;
@@ -134,7 +144,7 @@
 			);
 			name = SwiftBufferedLogging;
 			productName = SwiftBufferedLogging;
-			productReference = "SwiftBufferedLogging::SwiftBufferedLogging::Product" /* SwiftBufferedLogging.framework */;
+			productReference = 1BD73E2E24DB4B6E00D878D7 /* SwiftBufferedLogging.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		"SwiftBufferedLogging::SwiftBufferedLoggingTests" /* SwiftBufferedLoggingTests */ = {
@@ -151,7 +161,7 @@
 			);
 			name = SwiftBufferedLoggingTests;
 			productName = SwiftBufferedLoggingTests;
-			productReference = "SwiftBufferedLogging::SwiftBufferedLoggingTests::Product" /* SwiftBufferedLoggingTests.xctest */;
+			productReference = 1BD73E2F24DB4B6E00D878D7 /* SwiftBufferedLoggingTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		"SwiftBufferedLogging::SwiftPMPackageDescription" /* SwiftBufferedLoggingPackageDescription */ = {
@@ -184,8 +194,8 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
-			productRefGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_5;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -202,7 +212,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				1BD73E3324DB4D2D00D878D7 /* LogContainer.swift in Sources */,
 				OBJ_23 /* SwiftBufferedLogging.swift in Sources */,
+				1BD73E3524DB4DDF00D878D7 /* Log.swift in Sources */,
+				1BD73E3124DB4C0400D878D7 /* LogOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
