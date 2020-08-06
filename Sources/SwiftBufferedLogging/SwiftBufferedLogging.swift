@@ -11,8 +11,8 @@ import UIKit
 /// calling error() in the delegate function will trigger
 /// the retry handler for those logs
 public protocol SwiftBufferedLogDelegate {
-    func sendSingleLog(_ log: Log, error: (() -> Void))
-    func sendBatchLogs(_ logs: [Log], error: (() -> Void))
+    func sendLogs(_ logs: [Log], completion: ((Bool) -> Void))
+    func didFailToSendLogs(_ logs: [Log])
 }
 
 /// Package Class
@@ -41,9 +41,8 @@ public class SwiftBufferedLogging {
     private func handleLog(_ log: Log,_ sendInstantly: Bool) {
         
         if sendInstantly {
-            delegate.sendSingleLog(log) {
-                // Handle Retries
-            }
+            let batch = Batch([log], delegate: self, logOptions: logOptions)
+            dispatchLogs(batch)
             return
         }
         
@@ -61,12 +60,9 @@ extension SwiftBufferedLogging {
     ///   - message: Message to attach to the log
     ///   - metadata: Any metadata that should be sent with the log
     ///   - sendInstantly: Set to true to skip holding the log in the buffer
-    public func log(_ message: String, metadata: [String: Any] = [:], logLevel: LogLevel = .debug, tags: [String], sendInstantly: Bool = false) {
-        
-        let log = Log(message: message, level: logLevel, tags: tags, metadata: metadata)
-        
+    public func log(_ message: String, metadata: [String: Any] = [:], logLevel: LogLevel = .debug, sendInstantly: Bool = false) {
+        let log = Log(message: message, level: logLevel, metadata: metadata)
         handleLog(log, sendInstantly)
-        
     }
     
     /// Log
@@ -82,16 +78,31 @@ extension SwiftBufferedLogging {
 }
 
 
-// MARK: Log Container Delegate
-extension SwiftBufferedLogging : LogContainerDelegate {
+// MARK: LogDispatchDelegate
+extension SwiftBufferedLogging : LogDispatchDelegate {
     
     /// Dispatch Logs
     /// Called when the log container is ready to send logs
     /// - Parameter logs: Logs received from the log container
-    func dispatchLogs(_ logs: [Log]) {
-        delegate.sendBatchLogs(logs) {
-            // Handle Retries
+    func dispatchLogs(_ batch: Batch) {
+        
+        delegate.sendLogs(batch.logs) { success in
+            
+            guard success else {
+                handleError(batch)
+                return
+            }
+            
+            batch.remove()
         }
+    }
+    
+    /// Handle Error
+    /// Will handle retries
+    /// - Parameter batch: the batch to be retried
+    func handleError(_ batch: Batch) {
+        batch.add()
+        batch.retry()
     }
     
 }

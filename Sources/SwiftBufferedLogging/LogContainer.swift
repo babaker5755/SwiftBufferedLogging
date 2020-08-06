@@ -11,8 +11,8 @@ import UIKit
 /// The method that send the logs back to
 /// the main package class when they are
 /// ready to be sent to the api
-protocol LogContainerDelegate {
-    func dispatchLogs(_ logs: [Log])
+protocol LogDispatchDelegate {
+    func dispatchLogs(_ batch: Batch)
 }
 
 /// The log container
@@ -20,7 +20,8 @@ protocol LogContainerDelegate {
 /// before logOptions.maxBufferSize is reached, or logOptions.saveTime has passed
 internal class LogContainer {
     
-    private var delegate : LogContainerDelegate!
+    private var timer : Timer?
+    private var delegate : LogDispatchDelegate!
     private let logOptions: LogOptions
     private var bufferedLogs : [Log] = [] {
         didSet {
@@ -33,7 +34,7 @@ internal class LogContainer {
     ///   - delegate: Contains method for sending logs to the server
     ///   - logOptions: Contains options for how many logs to store and
     ///                 how long to hold them before sending them
-    init(delegate: LogContainerDelegate, logOptions: LogOptions) {
+    init(delegate: LogDispatchDelegate, logOptions: LogOptions) {
         self.delegate = delegate
         self.logOptions = logOptions
     }
@@ -42,6 +43,7 @@ internal class LogContainer {
     /// Adds a log to the list of logs to send
     /// - Parameter log: Log item to add to the buffer
     func addLog(_ log: Log) {
+        if bufferedLogs.isEmpty { startTimer() }
         bufferedLogs.append(log)
     }
     
@@ -49,7 +51,8 @@ internal class LogContainer {
     /// Called when the log buffer is full, or
     /// sufficient time has passed
     private func sendLogs() {
-        delegate.dispatchLogs(bufferedLogs)
+        let batch = Batch(bufferedLogs, delegate: delegate, logOptions: logOptions)
+        delegate.dispatchLogs(batch)
         bufferedLogs = []
     }
     
@@ -71,6 +74,30 @@ extension LogContainer {
         
         if currentLogCount >= logOptions.maxBufferSize {
             sendLogs()
+        }
+        
+    }
+    
+    /// Starts the timer based on the logOptions.saveTime
+    /// Will ensure logOptions.minBufferSize is met before
+    /// dispatching logs
+    private func startTimer() {
+        
+        guard #available(iOS 10.0, *) else {
+            fatalError("SwiftBufferedTimer Error : Must be using iOS 10.0 or greater.")
+        }
+        
+        guard let timeInterval = TimeInterval(exactly: logOptions.saveTime) else { return }
+        
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { [weak self] timer in
+            guard let self = self else { return }
+            
+            if self.bufferedLogs.count < self.logOptions.minBufferSize { return }
+            
+            timer.invalidate()
+            
+            let batch = Batch(self.bufferedLogs, delegate: self.delegate, logOptions: self.logOptions)
+            self.delegate.dispatchLogs(batch)
         }
         
     }

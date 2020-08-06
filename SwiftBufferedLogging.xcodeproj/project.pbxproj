@@ -24,6 +24,7 @@
 		1BD73E3124DB4C0400D878D7 /* LogOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD73E3024DB4C0400D878D7 /* LogOptions.swift */; };
 		1BD73E3324DB4D2D00D878D7 /* LogContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD73E3224DB4D2D00D878D7 /* LogContainer.swift */; };
 		1BD73E3524DB4DDF00D878D7 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD73E3424DB4DDF00D878D7 /* Log.swift */; };
+		1BE86B6B24DB697000CE553C /* Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE86B6A24DB697000CE553C /* Batch.swift */; };
 		OBJ_23 /* SwiftBufferedLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* SwiftBufferedLogging.swift */; };
 		OBJ_30 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_41 /* SwiftBufferedLoggingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* SwiftBufferedLoggingTests.swift */; };
@@ -53,6 +54,7 @@
 		1BD73E3024DB4C0400D878D7 /* LogOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOptions.swift; sourceTree = "<group>"; };
 		1BD73E3224DB4D2D00D878D7 /* LogContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogContainer.swift; sourceTree = "<group>"; };
 		1BD73E3424DB4DDF00D878D7 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		1BE86B6A24DB697000CE553C /* Batch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Batch.swift; sourceTree = "<group>"; };
 		OBJ_12 /* SwiftBufferedLoggingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBufferedLoggingTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		OBJ_17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				1BD73E3024DB4C0400D878D7 /* LogOptions.swift */,
 				1BD73E3224DB4D2D00D878D7 /* LogContainer.swift */,
 				1BD73E3424DB4DDF00D878D7 /* Log.swift */,
+				1BE86B6A24DB697000CE553C /* Batch.swift */,
 			);
 			name = SwiftBufferedLogging;
 			path = Sources/SwiftBufferedLogging;
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				1BE86B6B24DB697000CE553C /* Batch.swift in Sources */,
 				1BD73E3324DB4D2D00D878D7 /* LogContainer.swift in Sources */,
 				OBJ_23 /* SwiftBufferedLogging.swift in Sources */,
 				1BD73E3524DB4DDF00D878D7 /* Log.swift in Sources */,

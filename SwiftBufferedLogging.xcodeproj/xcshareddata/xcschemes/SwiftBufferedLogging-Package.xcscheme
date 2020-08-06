@@ -20,6 +20,20 @@
                ReferencedContainer = "container:SwiftBufferedLogging.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SwiftBufferedLogging::SwiftBufferedLoggingTests"
+               BuildableName = "SwiftBufferedLoggingTests.xctest"
+               BlueprintName = "SwiftBufferedLoggingTests"
+               ReferencedContainer = "container:SwiftBufferedLogging.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -57,6 +71,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "SwiftBufferedLogging::SwiftBufferedLogging"
+            BuildableName = "SwiftBufferedLogging.framework"
+            BlueprintName = "SwiftBufferedLogging"
+            ReferencedContainer = "container:SwiftBufferedLogging.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
