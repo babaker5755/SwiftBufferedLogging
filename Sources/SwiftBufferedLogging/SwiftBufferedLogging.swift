@@ -11,7 +11,7 @@ import UIKit
 /// calling error() in the delegate function will trigger
 /// the retry handler for those logs
 public protocol SwiftBufferedLogDelegate {
-    func sendLogs(_ logs: [Log], completion: ((Bool) -> Void))
+    func sendLogs(_ logs: [Log], completion: @escaping ((Bool) -> Void))
     func didFailToSendLogs(_ logs: [Log])
 }
 
