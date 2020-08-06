@@ -13,8 +13,9 @@ class Logger {
 
     private static var logger : SwiftBufferedLogging!
 
-    func init() {
-        logger = SwiftBufferedLogging(delegate: self)
+    init() {
+        let options = LogOptions()
+        Logger.logger = SwiftBufferedLogging(delegate: self, logOptions: options)
     }
 
     /// Log
@@ -55,9 +56,7 @@ extension Logger : SwiftBufferedLogDelegate {
 ```
 ### Usage in app
 ```swift 
-func viewDidLoad() {
-    super.viewDidLoad()
-    
-    Logger.log(
+func exampleFunction() {
+    Logger.log("exampleFunction called")
 }
 ```

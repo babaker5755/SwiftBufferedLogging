@@ -28,7 +28,7 @@ public class SwiftBufferedLogging {
     /// - Parameters:
     ///   - delegate: Should contain methods for handling sending logs a logging api
     ///   - logOptions: Contains options for how many logs to store and how long to hold them before sending them
-    init(delegate: SwiftBufferedLogDelegate, logOptions: LogOptions = LogOptions()) {
+    public init(delegate: SwiftBufferedLogDelegate, logOptions: LogOptions = LogOptions()) {
         self.delegate = delegate
         self.logOptions = logOptions
         self.logContainer = LogContainer(delegate: self, logOptions: logOptions)

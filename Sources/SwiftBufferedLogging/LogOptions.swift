@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LogOptions {
+public class LogOptions {
     
     let saveTime: Double
     let maxBufferSize: Int
@@ -19,7 +19,7 @@ class LogOptions {
     ///   - saveTime: Number of seconds the buffer should hold logs before sending
     ///   - maxBufferSize: Maximum number of logs the buffer can contain before sending
     ///   - minBufferSize: Minimum number of logs the buffer should contain before sending
-    init(saveTime: Double = 5, maxBufferSize: Int = 10, minBufferSize : Int = 0, maxRetries: Int = 5) {
+    public init(saveTime: Double = 5, maxBufferSize: Int = 10, minBufferSize : Int = 0, maxRetries: Int = 5) {
         
         guard minBufferSize <= maxBufferSize else {
             fatalError("LogOptions Error: maxBufferSize(\(maxBufferSize) must be lower than minBufferSize(\(minBufferSize))")
