@@ -5,6 +5,7 @@ A description of this package.
 
 ## Usage
 
+### Set up logging class
 ```swift
 import SwiftBufferedLogging
 
@@ -18,7 +19,7 @@ class Logger {
 
     /// Log
     /// - Parameter message: Info to be logged
-    func log(_ message: String) {
+    public static func log(_ message: String) {
         
         let metadata: [String : Any] = [
             "deviceModel": "iPad 5",
@@ -51,5 +52,12 @@ extension Logger : SwiftBufferedLogDelegate {
     }
     
 }
-
+```
+### Usage in app
+```swift 
+func viewDidLoad() {
+    super.viewDidLoad()
+    
+    Logger.log(
+}
 ```

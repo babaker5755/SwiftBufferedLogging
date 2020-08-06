@@ -8,11 +8,11 @@
 import UIKit
 
 /// The basic log model for SwiftBufferedLogging
-public class Log {
+open class Log {
     
-    let message : String
-    let metadata : [String: Any]
-    let level : LogLevel
+    public let message : String
+    public let metadata : [String: Any]
+    public let level : LogLevel
     
     /// Initializer
     /// - Parameters:

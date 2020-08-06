@@ -84,12 +84,13 @@ extension SwiftBufferedLoggingTests {
     
     /// Set up
     override func setUp() {
-        sleep(10)
+        wait(for: 10)
         setupLogger()
     }
     
     /// Tear down
     override func tearDown() {
+        wait(for: 10)
         SwiftBufferedLoggingTests.sentLogs = []
     }
     
