@@ -13,6 +13,7 @@ import UIKit
 /// ready to be sent to the api
 protocol LogDispatchDelegate {
     func dispatchLogs(_ batch: Batch)
+    func failedLogs(_ batch: Batch)
 }
 
 /// The log container

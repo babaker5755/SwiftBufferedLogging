@@ -77,9 +77,15 @@ extension SwiftBufferedLogging {
     
 }
 
-
 // MARK: LogDispatchDelegate
 extension SwiftBufferedLogging : LogDispatchDelegate {
+    
+    
+    /// Failed logs
+    /// - Parameter batch: the failed batch of logs
+    func failedLogs(_ batch: Batch) {
+        delegate.didFailToSendLogs(batch.logs)
+    }
     
     /// Dispatch Logs
     /// Called when the log container is ready to send logs

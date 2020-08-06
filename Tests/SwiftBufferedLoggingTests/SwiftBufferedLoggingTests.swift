@@ -4,8 +4,12 @@ import XCTest
 final class SwiftBufferedLoggingTests: XCTestCase {
     
     static var sentLogs : [String] = []
+    static var failedLogs : [String] = []
     
     var logger : SwiftBufferedLogging!
+    
+    var success : Bool = true
+    var shouldSkipCallingCompletion : Bool = false
     
     /// Tests timer by logging once
     /// and checking if it has been sent
@@ -22,7 +26,7 @@ final class SwiftBufferedLoggingTests: XCTestCase {
     /// before logOption.saveTime
     func testSimpleMaxBuffer() {
         
-        // max buffer size is 5
+        // default max buffer size is 5
         let testArray = ["test", "test1", "test2", "test3", "test4", "test5"]
         let resultArray = ["test", "test1", "test2", "test3", "test4"]
         testArray.forEach { log($0) }
@@ -52,6 +56,22 @@ final class SwiftBufferedLoggingTests: XCTestCase {
         
     }
     
+    /// Tests max retry by setting maxRetries to 2,
+    /// and adding logs that will fail to upload
+    func testMaxRetry() {
+        
+        let logOptions = LogOptions(saveTime: 1, maxBufferSize: 100, minBufferSize: 1, maxRetries: 2)
+        logger = SwiftBufferedLogging(delegate: self, logOptions: logOptions)
+        
+        success = false
+        
+        let testArray = ["test", "test1", "test2", "test3", "test4", "test5"]
+        testArray.forEach { log($0) }
+        
+        wait(for: 10)
+        
+        XCTAssertEqual(SwiftBufferedLoggingTests.failedLogs, testArray)
+    }
     
 }
 
@@ -61,11 +81,12 @@ extension SwiftBufferedLoggingTests : SwiftBufferedLogDelegate {
     func sendLogs(_ logs: [Log], completion: ((Bool) -> Void)) {
         print("adding logs to sent logs", logs.map { $0.message })
         SwiftBufferedLoggingTests.sentLogs.append(contentsOf: logs.map { $0.message })
-        completion(true)
+        completion(success)
     }
     
     func didFailToSendLogs(_ logs: [Log]) {
         print("Logs failed to send after retrying: \(logs.map { $0.message + "\n" })")
+        SwiftBufferedLoggingTests.failedLogs.append(contentsOf: logs.map { $0.message })
     }
     
 }
@@ -91,6 +112,7 @@ extension SwiftBufferedLoggingTests {
     /// Tear down
     override func tearDown() {
         wait(for: 10)
+        SwiftBufferedLoggingTests.failedLogs = []
         SwiftBufferedLoggingTests.sentLogs = []
     }
     

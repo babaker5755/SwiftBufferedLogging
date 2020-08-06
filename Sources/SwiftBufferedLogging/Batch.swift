@@ -54,7 +54,11 @@ class Batch {
     /// timeIncrementInSeconds has passed
     func retry() {
         
-        guard retries <= logOptions.maxRetries else { return }
+        guard retries <= logOptions.maxRetries else {
+            print("retry limit reached")
+            delegate.failedLogs(self)
+            return
+        }
         
         print("retrying\(id) - \(retries) time")
         
