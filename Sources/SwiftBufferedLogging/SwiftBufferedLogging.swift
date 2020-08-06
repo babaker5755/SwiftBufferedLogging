@@ -89,7 +89,7 @@ extension SwiftBufferedLogging : LogDispatchDelegate {
         delegate.sendLogs(batch.logs) { success in
             
             guard success else {
-                handleError(batch)
+                self.handleError(batch)
                 return
             }
             
