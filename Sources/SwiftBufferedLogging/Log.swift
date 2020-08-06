@@ -19,7 +19,7 @@ open class Log {
     ///   - message: The 'title' of the log
     ///   - level: A level description of the log
     ///   - metadata: Log metadata
-    init(message: String, level: LogLevel = .debug, metadata: [String: Any] = [:]) {
+    public init(message: String, level: LogLevel = .debug, metadata: [String: Any] = [:]) {
         self.message = message
         self.metadata = metadata
         self.level = level
