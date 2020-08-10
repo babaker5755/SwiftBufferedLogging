@@ -58,6 +58,28 @@ final class SwiftBufferedLoggingTests: XCTestCase {
     
     /// Tests max retry by setting maxRetries to 2,
     /// and adding logs that will fail to upload
+    func testRetry() {
+        
+        let logOptions = LogOptions(saveTime: 1, maxBufferSize: 100, minBufferSize: 1, maxRetries: 2)
+        logger = SwiftBufferedLogging(delegate: self, logOptions: logOptions)
+        
+        success = false
+        
+        let testArray = ["test", "test1", "test2", "test3", "test4", "test5"]
+        testArray.forEach { log($0) }
+        
+        wait(for: 3)
+        
+        success = true
+        
+        wait(for: 10)
+        
+        XCTAssertEqual(SwiftBufferedLoggingTests.sentLogs, testArray)
+        XCTAssert(Batch.batches.isEmpty)
+    }
+    
+    /// Tests max retry by setting maxRetries to 2,
+    /// and adding logs that will fail to upload
     func testMaxRetry() {
         
         let logOptions = LogOptions(saveTime: 1, maxBufferSize: 100, minBufferSize: 1, maxRetries: 2)
@@ -71,6 +93,7 @@ final class SwiftBufferedLoggingTests: XCTestCase {
         wait(for: 10)
         
         XCTAssertEqual(SwiftBufferedLoggingTests.failedLogs, testArray)
+        XCTAssert(Batch.batches.isEmpty)
     }
     
 }
@@ -80,7 +103,9 @@ extension SwiftBufferedLoggingTests : SwiftBufferedLogDelegate {
     
     func sendLogs(_ logs: [Log], completion: ((Bool) -> Void)) {
         print("adding logs to sent logs", logs.map { $0.message })
-        SwiftBufferedLoggingTests.sentLogs.append(contentsOf: logs.map { $0.message })
+        if success {
+            SwiftBufferedLoggingTests.sentLogs.append(contentsOf: logs.map { $0.message })
+        }
         completion(success)
     }
     
@@ -106,12 +131,14 @@ extension SwiftBufferedLoggingTests {
     /// Set up
     override func setUp() {
         wait(for: 10)
+        Batch.batches = []
         setupLogger()
     }
     
     /// Tear down
     override func tearDown() {
         wait(for: 10)
+        Batch.batches = []
         SwiftBufferedLoggingTests.failedLogs = []
         SwiftBufferedLoggingTests.sentLogs = []
     }

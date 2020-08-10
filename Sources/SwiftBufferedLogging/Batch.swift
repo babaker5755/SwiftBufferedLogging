@@ -15,12 +15,11 @@ class Batch {
     let logs : [Log]
     
     private let logOptions : LogOptions
-    private var timeIncrementInSeconds : Double = 0.1
+    private var timeIncrementInSeconds : Double = 0.5
     private let delegate : LogDispatchDelegate
     private var retries = 0 {
         didSet {
-            timeIncrementInSeconds = Double(retries * retries) * timeIncrementInSeconds
-            print("timeIncrementInMilliseconds:\(timeIncrementInSeconds)")
+            timeIncrementInSeconds = Double(retries * 2) * timeIncrementInSeconds
         }
     }
     
@@ -54,19 +53,16 @@ class Batch {
     /// timeIncrementInSeconds has passed
     func retry() {
         
-        guard retries <= logOptions.maxRetries else {
+        guard retries < logOptions.maxRetries, Batch.batches.contains(where: { $0.id == id }) else {
             print("retry limit reached")
             delegate.failedLogs(self)
+            remove()
             return
         }
-        
-        print("retrying\(id) - \(retries) time")
         
         retries += 1
         
         guard let timeInterval = TimeInterval(exactly: timeIncrementInSeconds) else { return }
-        
-        print("retrying in \(timeInterval)")
         
         guard #available(iOS 10.0, *) else {
             fatalError("SwiftBufferedTimer Error : Must be using iOS 10.0 or greater.")

@@ -19,7 +19,11 @@ public class LogOptions {
     ///   - saveTime: Number of seconds the buffer should hold logs before sending
     ///   - maxBufferSize: Maximum number of logs the buffer can contain before sending
     ///   - minBufferSize: Minimum number of logs the buffer should contain before sending
-    public init(saveTime: Double = 5, maxBufferSize: Int = 10, minBufferSize : Int = 0, maxRetries: Int = 5) {
+    public init(saveTime: Double = 5, maxBufferSize: Int = 10, minBufferSize : Int = 0, maxRetries: Int = 3) {
+        
+        guard [Int(saveTime), maxBufferSize, minBufferSize, maxRetries].filter({ $0 < 0 }).count == 0 else {
+            fatalError("LogOptions Error: can not use negative number.")
+        }
         
         guard minBufferSize <= maxBufferSize else {
             fatalError("LogOptions Error: maxBufferSize(\(maxBufferSize) must be lower than minBufferSize(\(minBufferSize))")
