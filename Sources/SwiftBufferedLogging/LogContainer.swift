@@ -97,8 +97,7 @@ extension LogContainer {
             
             timer.invalidate()
             
-            let batch = Batch(self.bufferedLogs, delegate: self.delegate, logOptions: self.logOptions)
-            self.delegate.dispatchLogs(batch)
+            self.sendLogs()
         }
         
     }
