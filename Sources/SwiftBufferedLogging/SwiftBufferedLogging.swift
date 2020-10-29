@@ -15,18 +15,15 @@ public protocol SwiftBufferedLogDelegate {
     func didFailToSendLogs(_ logs: [Log])
 }
 
-/// Package Class
+
 public class SwiftBufferedLogging {
     
     private let logOptions: LogOptions
     private var logContainer: LogContainer!
     private let delegate: SwiftBufferedLogDelegate
     
-    /// Main package initializer
-    /// A conforming class in the user's project will
-    /// handle dispatching single and batch logs
     /// - Parameters:
-    ///   - delegate: Should contain methods for handling sending logs a logging api
+    ///   - delegate: Contains methods for handling sending logs a logging api
     ///   - logOptions: Contains options for how many logs to store and how long to hold them before sending them
     public init(delegate: SwiftBufferedLogDelegate, logOptions: LogOptions = LogOptions()) {
         self.delegate = delegate
@@ -34,7 +31,6 @@ public class SwiftBufferedLogging {
         self.logContainer = LogContainer(delegate: self, logOptions: logOptions)
     }
     
-    /// Handle log
     /// - Parameters:
     ///   - log: the log to be handled
     ///   - sendInstantly: Set to true to skip holding the log in the buffer
@@ -54,8 +50,8 @@ public class SwiftBufferedLogging {
 // MARK: User Methods
 extension SwiftBufferedLogging {
     
-    /// Log
-    /// Takes input and creates a log that will be managed throughout the framework
+    
+    /// Creates a log that will be managed throughout the framework
     /// - Parameters:
     ///   - message: Message to attach to the log
     ///   - metadata: Any metadata that should be sent with the log
@@ -65,12 +61,9 @@ extension SwiftBufferedLogging {
         handleLog(log, sendInstantly)
     }
     
-    /// Log
-    /// Takes the log as input and handles it
     /// - Parameters:
     ///   - log: the log object that will be handled
-    ///   - sendInstantly: Set to true to skip
-    ///                    holding the log in the buffer
+    ///   - sendInstantly: Skip holding the log in the buffer - default: false
     public func log(_ log: Log, sendInstantly: Bool = false) {
         handleLog(log, sendInstantly)
     }
@@ -80,14 +73,11 @@ extension SwiftBufferedLogging {
 // MARK: LogDispatchDelegate
 extension SwiftBufferedLogging : LogDispatchDelegate {
     
-    
-    /// Failed logs
     /// - Parameter batch: the failed batch of logs
     func failedLogs(_ batch: Batch) {
         delegate.didFailToSendLogs(batch.logs)
     }
     
-    /// Dispatch Logs
     /// Called when the log container is ready to send logs
     /// - Parameter logs: Logs received from the log container
     func dispatchLogs(_ batch: Batch) {
@@ -103,8 +93,6 @@ extension SwiftBufferedLogging : LogDispatchDelegate {
         }
     }
     
-    /// Handle Error
-    /// Will handle retries
     /// - Parameter batch: the batch to be retried
     func handleError(_ batch: Batch) {
         batch.add()

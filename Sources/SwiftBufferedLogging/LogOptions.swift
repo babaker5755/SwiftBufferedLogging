@@ -14,7 +14,6 @@ public class LogOptions {
     let minBufferSize : Int
     let maxRetries: Int
     
-    /// Initializer
     /// - Parameters:
     ///   - saveTime: Number of seconds the buffer should hold logs before sending
     ///   - maxBufferSize: Maximum number of logs the buffer can contain before sending

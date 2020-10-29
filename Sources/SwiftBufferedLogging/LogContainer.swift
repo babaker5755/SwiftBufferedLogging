@@ -16,7 +16,6 @@ protocol LogDispatchDelegate {
     func failedLogs(_ batch: Batch)
 }
 
-/// The log container
 /// Handles holding logs until after logOptions.minBufferSize is reached and
 /// before logOptions.maxBufferSize is reached, or logOptions.saveTime has passed
 internal class LogContainer {
@@ -24,13 +23,13 @@ internal class LogContainer {
     private var timer : Timer?
     private var delegate : LogDispatchDelegate!
     private let logOptions: LogOptions
+    
     private var bufferedLogs : [Log] = [] {
         didSet {
-            checkMinAndMaxSize()
+            sendLogsIfNeeded()
         }
     }
     
-    /// Initializer
     /// - Parameters:
     ///   - delegate: Contains method for sending logs to the server
     ///   - logOptions: Contains options for how many logs to store and
@@ -40,17 +39,14 @@ internal class LogContainer {
         self.logOptions = logOptions
     }
     
-    /// Add Log
     /// Adds a log to the list of logs to send
-    /// - Parameter log: Log item to add to the buffer
+    /// - Parameter log: Item to add to the buffer
     func addLog(_ log: Log) {
         if bufferedLogs.isEmpty { startTimer() }
         bufferedLogs.append(log)
     }
     
-    /// Send Logs
-    /// Called when the log buffer is full, or
-    /// sufficient time has passed
+    /// Called when the log buffer is full or sufficient time has passed
     private func sendLogs() {
         let batch = Batch(bufferedLogs, delegate: delegate, logOptions: logOptions)
         delegate.dispatchLogs(batch)
@@ -65,7 +61,7 @@ extension LogContainer {
     /// Will test the size of bufferedLogs against
     /// the specified min and max. Will send logs
     /// if the size limit has been reached
-    private func checkMinAndMaxSize() {
+    private func sendLogsIfNeeded() {
         
         let currentLogCount = bufferedLogs.count
         
@@ -91,6 +87,7 @@ extension LogContainer {
         guard let timeInterval = TimeInterval(exactly: logOptions.saveTime) else { return }
         
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { [weak self] timer in
+            
             guard let self = self else { return }
             
             if self.bufferedLogs.count < self.logOptions.minBufferSize { return }

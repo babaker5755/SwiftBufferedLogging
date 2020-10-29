@@ -11,19 +11,16 @@ final class SwiftBufferedLoggingTests: XCTestCase {
     var success : Bool = true
     var shouldSkipCallingCompletion : Bool = false
     
-    /// Tests timer by logging once
-    /// and checking if it has been sent
-    /// after logOption.saveTime
+    /// Tests timer by logging once and checking
+    /// if it has been sent after logOption.saveTime
     func testSimpleTimer() {
         log("test")
         wait(for: 6)
         XCTAssertEqual(SwiftBufferedLoggingTests.sentLogs, ["test"])
     }
     
-    /// Test max buffer size
-    /// by adding 1 more than buffer size
-    /// and checking that they are sent
-    /// before logOption.saveTime
+    /// Test max buffer size by adding 1 more than buffer size
+    /// and checking that they are sent before logOption.saveTime
     func testSimpleMaxBuffer() {
         
         // default max buffer size is 5
@@ -36,10 +33,8 @@ final class SwiftBufferedLoggingTests: XCTestCase {
         XCTAssertEqual(SwiftBufferedLoggingTests.sentLogs, resultArray)
     }
     
-    /// Tests min buffer by adding 1 below
-    /// min buffer size, and checking that
-    /// they have not been sent after
-    /// logOption.saveTime has passed
+    /// Tests min buffer by adding 1 below min buffer size, and checking that
+    /// they have not been sent after logOption.saveTime has passed
     func testSimpleMinBuffer() {
         
         // min buffer size = 5
@@ -121,21 +116,18 @@ extension SwiftBufferedLoggingTests : SwiftBufferedLogDelegate {
 // MARK: Test Helper Functions
 extension SwiftBufferedLoggingTests {
     
-    /// All tests
     static var allTests = [
         ("testSimpleTimer", testSimpleTimer),
         ("testSimpleMaxBuffer", testSimpleMaxBuffer),
         ("testSimpleMinBuffer", testSimpleMinBuffer)
     ]
     
-    /// Set up
     override func setUp() {
         wait(for: 10)
         Batch.batches = []
         setupLogger()
     }
     
-    /// Tear down
     override func tearDown() {
         wait(for: 10)
         Batch.batches = []
@@ -159,6 +151,7 @@ extension XCTestCase {
     // We use a buffer here to avoid flakiness with Timer on CI
     waitForExpectations(timeout: duration + 0.5)
   }
+    
 }
 
 
@@ -172,8 +165,6 @@ extension SwiftBufferedLoggingTests {
         logger = SwiftBufferedLogging(delegate: self, logOptions: logOptions)
     }
     
-    
-    /// Log
     /// - Parameter message: Info to be logged
     func log(_ message: String) {
         
