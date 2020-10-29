@@ -23,7 +23,6 @@ class Batch {
         }
     }
     
-    /// Initializer
     /// - Parameters:
     ///   - logs: buffered logs to send
     ///   - delegate: contains function for sending logs
@@ -36,22 +35,23 @@ class Batch {
         self.delegate = delegate
     }
     
-    /// Adds batch to the static array
     func add() {
         guard !Batch.batches.contains(where: { $0.id == id }) else { return }
         Batch.batches.append(self)
     }
     
-    /// Removes batch from the static array
     func remove() {
         Batch.batches.removeAll(where: {$0.id == id})
     }
     
-    /// Retry handler
     /// Will ensure the batch is not retried more than logOptions.maxRetries,
     /// increments the retry count, and sets a timer to send logs after the
     /// timeIncrementInSeconds has passed
     func retry() {
+        
+        guard #available(iOS 10.0, *) else {
+            fatalError("SwiftBufferedTimer Error : Must be using iOS 10.0 or greater.")
+        }
         
         guard retries < logOptions.maxRetries, Batch.batches.contains(where: { $0.id == id }) else {
             print("retry limit reached")
@@ -63,10 +63,6 @@ class Batch {
         retries += 1
         
         guard let timeInterval = TimeInterval(exactly: timeIncrementInSeconds) else { return }
-        
-        guard #available(iOS 10.0, *) else {
-            fatalError("SwiftBufferedTimer Error : Must be using iOS 10.0 or greater.")
-        }
         
         Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { [weak self] _ in
             guard let self = self else { return }

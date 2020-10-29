@@ -24,21 +24,18 @@ class Logger {
     private static var instance = Logger()
     private var logger : SwiftBufferedLogging!
     
-    /// Create an instance of SwiftBufferedLogging
-    /// and specify options here.
+    /// Create an instance of SwiftBufferedLogging and specify options here.
     init() {
         let options = LogOptions(saveTime: 10, maxBufferSize: 10, minBufferSize: 5, maxRetries: 3)
         logger = SwiftBufferedLogging(delegate: self, logOptions: options)
     }
 
-    /// Log
-    /// Create a Log object and pass your log 
-    /// info here.
+    /// Create a Log object and pass your log info here.
     public static func log(_ message: String) {
         
         let metadata: [String : Any] = [
             "deviceModel": "iPad 5",
-            "userId": "17939101",
+            "uid": "24EDD13E-3E64-400F-B838-75C680DE2788",
             "isTest": true
         ]
         
@@ -50,8 +47,6 @@ class Logger {
 
 extension Logger : SwiftBufferedLogDelegate {
     
-    
-    /// Send Logs
     /// Use your own method of uploading logs here.
     func sendLogs(_ logs: [Log], completion: ((Bool) -> Void)) {
         Network.sendLogs(logs: logs) { result in
@@ -64,8 +59,7 @@ extension Logger : SwiftBufferedLogDelegate {
         }
     }
     
-    /// Logs Failed to Send
-    /// This function is called when a batch of logs has failed to send the specified number of times.
+    /// This function is called when a batch of logs has failed to send after retrying.
     func didFailToSendLogs(_ logs: [Log]) {
         print("Logs failed to send after retrying: \(logs.map { $0.message + "\n" })")
     }
@@ -75,6 +69,6 @@ extension Logger : SwiftBufferedLogDelegate {
 ### Usage in app
 ```swift 
 func exampleFunction() {
-    Logger.log("exampleFunction called")
+    Logger.log("exampleFunction() called")
 }
 ```
